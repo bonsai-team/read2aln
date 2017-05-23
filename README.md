@@ -1,10 +1,10 @@
 # read2aln
 
-###Usage :
-`read2aln reads.fa`
+### Usage :
+`./read2aln reads.fa`
 
-###Example :
-`read2aln example`
+### Example :
+`./demo`
 
-###Output :
+### Output :
 `aln.sam`
