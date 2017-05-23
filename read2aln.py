@@ -14,7 +14,7 @@ if __name__ == '__main__':
     elif sys.argv[1] == "install":
         os.system("git submodule update --init --recursive")
         os.system("git submodule foreach git pull origin master")
-        os.system("cd graphmap | make | cd ..")
+        os.system("make -C graphmap")
     elif sys.argv[1] == "demo":
         print("Searching overlaps between reads...")
         os.system("graphmap/bin/Linux-x64/graphmap align -x overlap -r examples/example_seqs.fa -d examples/example_seqs.fa -o examples/example_aln.sam")
