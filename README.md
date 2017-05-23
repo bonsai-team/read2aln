@@ -1,10 +1,13 @@
 # read2aln
 
+### Init submodules :
+`python read2aln.py install`
+
 ### Usage :
-`./read2aln reads.fa`
+`python read2aln.py run reads.fa`
 
 ### Example :
-`./demo`
+`python read2aln.py demo`
 
 ### Output :
 `aln.sam`

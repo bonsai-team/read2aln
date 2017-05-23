@@ -9,16 +9,16 @@ def print_usage():
     return;
 
 if __name__ == '__main__':
-    if not (len(sys.argv) == 2 or (sys.argv[1] == "run" and len(sys.argv) == 3)):
-        print(sys.argv)
+    if len(sys.argv) != 2 | len(sys.argv) != 3 & sys.argv[1] != "run":
         print_usage()
     elif sys.argv[1] == "install":
         os.system("git submodule update --init --recursive")
-        #os.system("cd graphmap | make modules | make | cd ..")
+        os.system("git submodule foreach git pull origin master")
+        os.system("cd graphmap | make | cd ..")
     elif sys.argv[1] == "demo":
         print("Searching overlaps between reads...")
-        os.system("graphmap/bin/Linux-x64/graphmap owler -r examples/example_seqs.fa -d examples/example_seqs.fa -o examples/example_aln.sam")
+        os.system("graphmap/bin/Linux-x64/graphmap align -x overlap -r examples/example_seqs.fa -d examples/example_seqs.fa -o examples/example_aln.sam")
     elif sys.argv[1] == "run":
-        os.system("graphmap/bin/Linux-x64/graphmap align -x overlap -r " + sys.argv[1] + " -d " + sys.argv[1] + " -o aln.sam")
+        os.system("graphmap/bin/Linux-x64/graphmap align -x overlap -r " + sys.argv[2] + " -d " + sys.argv[2] + " -o aln.sam")
     else:
         print_usage()
