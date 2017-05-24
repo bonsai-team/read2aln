@@ -12,9 +12,12 @@ if __name__ == '__main__':
     if len(sys.argv) != 2 | len(sys.argv) != 3 & sys.argv[1] != "run":
         print_usage()
     elif sys.argv[1] == "install":
-        os.system("git submodule update --init --recursive")
-        os.system("git submodule foreach git pull origin master")
-        os.system("make -C graphmap")
+        if not os.system("test -e graphmap/bin/Linux-x64/graphmap"):
+            print("Already done.")
+        else:
+            os.system("git submodule update --init --recursive")
+            os.system("git submodule foreach git pull origin master")
+            os.system("make -C graphmap")
     elif sys.argv[1] == "demo":
         print("Searching overlaps between reads...")
         os.system("graphmap/bin/Linux-x64/graphmap align -x overlap -r examples/example_seqs.fa -d examples/example_seqs.fa -o examples/example_aln.sam")
