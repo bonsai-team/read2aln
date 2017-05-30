@@ -22,6 +22,6 @@ if __name__ == '__main__':
         print("Searching overlaps between reads...")
         os.system("graphmap/bin/Linux-x64/graphmap align -x overlap -r examples/example_seqs.fa -d examples/example_seqs.fa -o examples/example_aln.sam")
     elif sys.argv[1] == "run":
-        os.system("graphmap/bin/Linux-x64/graphmap align -x overlap -r " + sys.argv[2] + " -d " + sys.argv[2] + " -o aln.sam")
+        os.system("graphmap/bin/Linux-x64/graphmap align -x overlap -r " + sys.argv[2] + " -d " + sys.argv[2] + " -o " + os.path.splitext(sys.argv[2])[0] +".sam")
     else:
         print_usage()

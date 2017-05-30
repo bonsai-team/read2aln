@@ -14,4 +14,4 @@ read2aln is a script that uses the Graphmap mapper to find the similarities betw
 `python read2aln.py demo`
 
 ### Output
-`aln.sam`
+`reads.sam`
