@@ -9,7 +9,9 @@ def print_usage():
     return;
 
 if __name__ == '__main__':
-    if len(sys.argv) != 2 | len(sys.argv) != 3 & sys.argv[1] != "run":
+    print(sys.argv)
+    print(len(sys.argv))
+    if len(sys.argv) != 2 | len(sys.argv) != 3 and sys.argv[1] != "run":
         print_usage()
     elif sys.argv[1] == "install":
         if not os.system("test -e graphmap/bin/Linux-x64/graphmap"):
