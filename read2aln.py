@@ -12,11 +12,11 @@ def install_mode(args):
     return
 
 def demo_mode(args):
-    os.system("graphmap/bin/Linux-x64/graphmap align -x overlap -r examples/example_seqs.fa -d examples/example_seqs.fa -o examples/example_aln.sam")
+    os.system("graphmap/bin/Linux-x64/graphmap align -r examples/example_seqs.fa -d examples/example_seqs.fa -o examples/example_aln.sam")
     return
 
 def run_mode(args):
-    os.system("graphmap/bin/Linux-x64/graphmap align -x overlap -r " + args.reads + " -d " + args.reads + " -o " + os.path.splitext(args.reads)[0] +".sam")
+    os.system("graphmap/bin/Linux-x64/graphmap align -r " + args.reads + " -d " + args.reads + " -o " + os.path.splitext(args.reads)[0] +".sam")
     return
 
 parser = argparse.ArgumentParser(description = "Find the similarities between long reads.")
