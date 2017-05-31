@@ -2,7 +2,7 @@
 
 ## Description
 
-read2aln is a script that uses the Graphmap mapper to find the similarities between reads in a set of long reads from MinION sequencing.
+read2aln is a script that uses the LAST mapper to find the similarities between reads provided from a set of long reads from MinION sequencing.
 
 ### Init submodules
 `python read2aln.py install`
