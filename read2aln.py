@@ -2,15 +2,6 @@
 #-*- coding: utf-8 -*-
 import os, argparse
 
-def install_mode(args):
-    if not os.system("test -e graphmap/bin/Linux-x64/graphmap"):
-        print("Already done.")
-    else:
-        os.system("git submodule update --init --recursive")
-        os.system("git submodule foreach git pull origin master")
-        os.system("make -C graphmap")
-    return
-
 def demo_mode(args):
     os.system("bin/lastdb tmpdb examples/example_seqs.fa")
     os.system("bin/lastal tmpdb examples/example_seqs.fa > examples/example_aln.maf")
@@ -26,13 +17,11 @@ def run_mode(args):
     os.system("bin/maf-convert sam "+ os.path.splitext(args.reads)[0] + ".maf > " + os.path.splitext(args.reads)[0] + ".sam")
     os.system("python scripts/delete_double.py " + os.path.splitext(args.reads)[0] + ".sam output.sam")
     os.system("python scripts/parse_evalue.py output.sam " + os.path.splitext(args.reads)[0] + ".sam")
-    os.system("rm tmp* output.sam *.maf")
+    os.system("rm tmp* output.sam " + os.path.splitext(args.reads)[0] + ".maf")
     return
 
 parser = argparse.ArgumentParser(description = "Find the similarities between long reads.")
 subparser = parser.add_subparsers(help = "Choose how to run the program")
-parser_install = subparser.add_parser("install", help = "Install the program")
-parser_install.set_defaults(func = install_mode)
 parser_run = subparser.add_parser("run", help = "Run the program for a set of long reads")
 parser_run.add_argument("reads", type = str, help = "Reads in fasta format")
 parser_run.set_defaults(func = run_mode)
