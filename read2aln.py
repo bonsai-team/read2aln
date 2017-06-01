@@ -18,7 +18,6 @@ def demo_mode(args):
     os.system("python scripts/delete_double.py examples/example_aln.sam examples/output.sam")
     os.system("python scripts/parse_evalue.py examples/output.sam examples/aln.sam")
     os.system("find examples/ ! \( -name \"aln.sam\" -o -name \"example_seqs.fa\" \) -type f -exec rm -f {} + | rm tmp*")
-    #os.system("graphmap/bin/Linux-x64/graphmap align -r examples/example_seqs.fa -d examples/example_seqs.fa -o examples/example_aln.sam")
     return
 
 def run_mode(args):
@@ -28,7 +27,6 @@ def run_mode(args):
     os.system("python scripts/delete_double.py " + os.path.splitext(args.reads)[0] + ".sam output.sam")
     os.system("python scripts/parse_evalue.py output.sam " + os.path.splitext(args.reads)[0] + ".sam")
     os.system("rm tmp* output.sam *.maf")
-    #os.system("graphmap/bin/Linux-x64/graphmap align -r " + args.reads + " -d " + args.reads + " -o " + os.path.splitext(args.reads)[0] +".sam")
     return
 
 parser = argparse.ArgumentParser(description = "Find the similarities between long reads.")
