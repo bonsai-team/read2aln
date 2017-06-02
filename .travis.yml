@@ -18,5 +18,4 @@ addons:
             - g++-5
 
 script:
-    - python read2aln.py install
     - python read2aln.py demo
