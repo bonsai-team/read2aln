@@ -1,6 +1,3 @@
-aln.sam
 examples/example_seqs.sam
-examples/example_aln.sam
-examples/example_seqs.fa.gmidx
-examples/reads_chr5_aligned.fa
-examples/reads_chr5_aligned.fa.gmidx
+reads_chr4_aligned.fa
+new_last_CB.sam
