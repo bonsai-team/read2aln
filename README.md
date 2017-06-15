@@ -1,5 +1,4 @@
 # read2aln
----
 
 ## Description
 read2aln is a script that uses the LAST mapper to find the similarities between reads provided from a set of long reads from MinION sequencing.
