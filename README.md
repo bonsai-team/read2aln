@@ -1,7 +1,7 @@
 # read2aln
 
 ## Description
-read2aln is a script that uses the LAST mapper to find the similarities between reads provided from a set of long reads from MinION sequencing.
+read2aln is a script that uses the [LAST] mapper to find the similarities between reads provided from a set of long reads from MinION sequencing.
 
 ---
 ### Usage
@@ -16,3 +16,5 @@ Use `python read2aln.py run -h` to see optional arguments.
 ---
 ### Output
 `reads.sam`
+
+   [LAST]: http://last.cbrc.jp/
