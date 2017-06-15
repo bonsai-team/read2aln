@@ -7,7 +7,7 @@ def demo_mode(args):
     os.system("bin/lastal tmpdb examples/example_seqs.fa > examples/example_aln.maf")
     os.system("bin/maf-convert sam examples/example_aln.maf > examples/example_aln.sam")
     os.system("python scripts/delete_double.py examples/example_aln.sam examples/output.sam")
-    os.system("python scripts/parse_evalue.py examples/output.sam examples/aln.sam")
+    os.system("python scripts/parse_evalue.py examples/output.sam examples/aln.sam 10e-10 65")
     os.system("find examples/ ! \( -name \"aln.sam\" -o -name \"example_seqs.fa\" \) -type f -exec rm -f {} + | rm tmp*")
     return
 
