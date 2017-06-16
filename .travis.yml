@@ -10,13 +10,14 @@ python:
 
 sudo : required
 
-addons :
-    apt :
+addons:
+    apt:
         sources:
             - ubuntu-toolchain-r-test
         packages:
             - g++-5
             - gcc-6
+            - libstdc++-4.9-dev
 
 script:
     - python read2aln.py demo
