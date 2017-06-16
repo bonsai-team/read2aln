@@ -44,6 +44,7 @@ parser_run.add_argument("reads", type = str, help = "Reads in fasta/fastq format
 parser_run.add_argument("--length", help = "Minimum length of alignments [65]", default = "65", action = 'store')
 parser_run.add_argument("--evalue", help = "Maximum e-value of alignments [10e-10]", action = 'store', default = '10e-10')
 parser_run.add_argument("-v", help = "Be verbose", action = 'store_true')
+parser_run.add_argument("--train", help = "Train score parameters", action = 'store_true')
 parser_run.set_defaults(func = run_mode, evalue = "10e-10", size = "65")
 parser_demo = subparser.add_parser("demo", help = "Run the program with the example file")
 parser_demo.set_defaults(func = demo_mode)
