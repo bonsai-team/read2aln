@@ -8,7 +8,7 @@ alns = f.readlines()
 output = open(sys.argv[2], "w")
 for aln in alns:
     tmp = aln.split()
-    if float(tmp[13].split(":")[-1]) < float(sys.argv[3]) and len(tmp[9]) >= int(sys.argv[4]):
+    if float(tmp[13].split(":")[-1]) < float(sys.argv[3]) and int(tmp[12].split(":")[2]) > int(sys.argv[4]):
         output.write(aln)
 f.close()
 output.close()

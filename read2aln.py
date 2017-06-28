@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
-import os, argparse, time
+import os, argparse, time, multiprocessing
+from joblib import Parallel, delayed
+from Bio import SeqIO
 
 def demo_mode(args):
     os.system("bin/lastdb tmpdb examples/example_seqs.fa")
@@ -11,9 +13,13 @@ def demo_mode(args):
     os.system("find examples/ ! \( -name \"aln.sam\" -o -name \"example_seqs.fa\" \) -type f -exec rm -f {} + | rm tmp*")
     return
 
+def mapping_LAST(num_tmp):
+    os.system("bin/lastal tmpdb tmp" + str(num_tmp) + ".fa > tmp" + str(num_tmp) + ".maf")
+    os.system("bin/maf-convert sam "+ "tmp" + str(num_tmp) + ".maf > tmp" + str(num_tmp) + ".sam")
+    return
+
 def run_mode(args):
     start_time = time.time()
-    print(os.path.splitext(args.reads)[1])
     if (os.path.splitext(args.reads)[1] == ".fq" or os.path.splitext(args.reads)[1] == ".fastq"):
         if args.v:
             print("Converting fastq to fasta...")
@@ -24,8 +30,28 @@ def run_mode(args):
     os.system("bin/lastdb tmpdb " + args.reads)
     if args.v:
         print("Aligning reads against reads...")
-    os.system("bin/lastal tmpdb " + args.reads + " > " + os.path.splitext(args.reads)[0] + ".maf")
-    os.system("bin/maf-convert sam "+ os.path.splitext(args.reads)[0] + ".maf > " + os.path.splitext(args.reads)[0] + ".sam")
+    if args.P:
+        n = 0
+        for rec in SeqIO.parse(args.reads, "fasta"):
+            n += 1
+        n /= int(args.P)
+        j = 0
+        i = 0
+        f = open("tmp" + str(j) + ".fa", "w")
+        for rec in SeqIO.parse(args.reads, "fasta"):
+            i += 1
+            f.write(rec.format("fasta"))
+            if (i % n == 0):
+                f.close()
+                j += 1
+                f = open("tmp" + str(j) + ".fa", "w")
+        num_cores = multiprocessing.cpu_count()
+        jobs = range(j + 1)
+        results = Parallel(n_jobs = num_cores)(delayed(mapping_LAST)(i) for i in jobs)
+        os.system("cat tmp*.sam > " + os.path.splitext(args.reads)[0] + ".sam")
+    else:
+        os.system("bin/lastal tmpdb " + args.reads + " > " + os.path.splitext(args.reads)[0] + ".maf")
+        os.system("bin/maf-convert sam "+ os.path.splitext(args.reads)[0] + ".maf > " + os.path.splitext(args.reads)[0] + ".sam")
     if args.v:
         print("Deleting bad alignments...")
     os.system("python scripts/delete_double.py " + os.path.splitext(args.reads)[0] + ".sam output.sam")
@@ -45,6 +71,7 @@ parser_run.add_argument("--length", help = "Minimum length of alignments [65]", 
 parser_run.add_argument("--evalue", help = "Maximum e-value of alignments [10e-10]", action = 'store', default = '10e-10')
 parser_run.add_argument("-v", help = "Be verbose", action = 'store_true')
 parser_run.add_argument("--train", help = "Train score parameters", action = 'store_true')
+parser_run.add_argument("-P", help = "Allow parallelization [2]", action = 'store', default = 2)
 parser_run.set_defaults(func = run_mode, evalue = "10e-10", size = "65")
 parser_demo = subparser.add_parser("demo", help = "Run the program with the example file")
 parser_demo.set_defaults(func = demo_mode)
