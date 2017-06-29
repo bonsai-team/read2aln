@@ -27,7 +27,7 @@ def run_mode(args):
         args.reads = os.path.splitext(args.reads)[0] + ".fa"
     if args.v:
         print("Deleting bad reads")
-    os.system("python scripts/delete_fail.py " + args.reads)
+    os.system("python scripts/delete_fail.py " + args.reads + " " + args.length)
     if args.v:
         print("Creating index...")
     os.system("bin/lastdb tmpdb " + args.reads)
