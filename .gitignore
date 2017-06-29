@@ -1,3 +1,6 @@
 examples/example_seqs.sam
 reads_chr4_aligned.fa
 new_last_CB.sam
+*slurm*
+examples/aln.sam
+reads_chr14_aligned*

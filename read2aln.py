@@ -20,6 +20,9 @@ def run_mode(args):
         os.system("sed -n '1~4s/^@/>/p;2~4p' " + args.reads + " > " + os.path.splitext(args.reads)[0] + ".fa")
         args.reads = os.path.splitext(args.reads)[0] + ".fa"
     if args.v:
+        print("Deleting bad reads")
+    os.system("python scripts/delete_fail.py " + args.reads)
+    if args.v:
         print("Creating index...")
     os.system("bin/lastdb tmpdb " + args.reads)
     if args.v:
