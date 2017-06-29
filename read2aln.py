@@ -27,6 +27,7 @@ def run_mode(args):
         args.reads = os.path.splitext(args.reads)[0] + ".fa"
     if args.v:
         print("Deleting bad reads")
+    os.system("bin/dustmasker -in " + args.reads + " -out tmp_dustmasker -outfmt acclist")
     os.system("python scripts/delete_fail.py " + args.reads + " " + args.length)
     if args.v:
         print("Creating index...")
@@ -61,7 +62,10 @@ def run_mode(args):
     os.system("python scripts/parse_evalue.py output.sam " + os.path.splitext(args.reads)[0] + ".sam " + args.evalue + " " + args.length)
     if args.v:
         print("Cleaning folder...")
-    os.system("rm tmp* output.sam " + os.path.splitext(args.reads)[0] + ".maf")
+    if args.P:
+        os.system("rm tmp* output.sam")
+    else:
+        os.system("rm tmp* output.sam " + os.path.splitext(args.reads)[0] + ".maf")
     if args.v:
         print("Done.\n\tTotal time in sec : " + str(time.time() - start_time))
     return
@@ -74,7 +78,7 @@ parser_run.add_argument("--length", help = "Minimum length of alignments [65]", 
 parser_run.add_argument("--evalue", help = "Maximum e-value of alignments [10e-10]", action = 'store', default = '10e-10')
 parser_run.add_argument("-v", help = "Be verbose", action = 'store_true')
 parser_run.add_argument("--train", help = "Train score parameters", action = 'store_true')
-parser_run.add_argument("-P", help = "Allow parallelization [2]", action = 'store', default = 2)
+parser_run.add_argument("-P", help = "Allow parallelization [2]", action = 'store', default = 0)
 parser_run.set_defaults(func = run_mode, evalue = "10e-10", size = "65")
 parser_demo = subparser.add_parser("demo", help = "Run the program with the example file")
 parser_demo.set_defaults(func = demo_mode)
