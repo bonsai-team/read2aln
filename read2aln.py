@@ -35,27 +35,10 @@ def run_mode(args):
     if args.v:
         print("Aligning reads against reads...")
     if args.P:
-        n = 0
-        for rec in SeqIO.parse(args.reads, "fasta"):
-            n += 1
-        n /= int(args.P)
-        j = 0
-        i = 0
-        f = open("tmp" + str(j) + ".fa", "w")
-        for rec in SeqIO.parse(args.reads, "fasta"):
-            i += 1
-            f.write(rec.format("fasta"))
-            if (i % n == 0):
-                f.close()
-                j += 1
-                f = open("tmp" + str(j) + ".fa", "w")
-        num_cores = multiprocessing.cpu_count()
-        jobs = range(j + 1)
-        results = Parallel(n_jobs = num_cores)(delayed(mapping_LAST)(i) for i in jobs)
-        os.system("cat tmp*.sam > " + os.path.splitext(args.reads)[0] + ".sam")
+        os.system("bin/lastal -P " + args.P + " tmpdb " + args.reads + " > " + os.path.splitext(args.reads)[0] + ".maf")
     else:
         os.system("bin/lastal tmpdb " + args.reads + " > " + os.path.splitext(args.reads)[0] + ".maf")
-        os.system("bin/maf-convert sam "+ os.path.splitext(args.reads)[0] + ".maf > " + os.path.splitext(args.reads)[0] + ".sam")
+    os.system("bin/maf-convert sam "+ os.path.splitext(args.reads)[0] + ".maf > " + os.path.splitext(args.reads)[0] + ".sam")
     if args.v:
         print("Deleting bad alignments...")
     os.system("python scripts/delete_double.py " + os.path.splitext(args.reads)[0] + ".sam output.sam")
