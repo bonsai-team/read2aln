@@ -13,11 +13,6 @@ def demo_mode(args):
     os.system("find examples/ ! \( -name \"aln.sam\" -o -name \"example_seqs.fa\" \) -type f -exec rm -f {} + | rm tmp*")
     return
 
-def mapping_LAST(num_tmp):
-    os.system("bin/lastal tmpdb tmp" + str(num_tmp) + ".fa > tmp" + str(num_tmp) + ".maf")
-    os.system("bin/maf-convert sam "+ "tmp" + str(num_tmp) + ".maf > tmp" + str(num_tmp) + ".sam")
-    return
-
 def run_mode(args):
     start_time = time.time()
     if (os.path.splitext(args.reads)[1] == ".fq" or os.path.splitext(args.reads)[1] == ".fastq"):
@@ -42,7 +37,7 @@ def run_mode(args):
     if args.v:
         print("Deleting bad alignments...")
     os.system("python scripts/delete_double.py " + os.path.splitext(args.reads)[0] + ".sam output.sam")
-    os.system("python scripts/parse_evalue.py output.sam " + os.path.splitext(args.reads)[0] + ".sam " + args.evalue + " " + args.length)
+    os.system("python scripts/parse_evalue.py output.sam " + os.path.splitext(args.reads)[0] + ".sam " + args.identity + " " + args.length)
     if args.v:
         print("Cleaning folder...")
     if args.P:
@@ -58,10 +53,10 @@ subparser = parser.add_subparsers(help = "Choose how to run the program")
 parser_run = subparser.add_parser("run", help = "Run the program for a set of long reads")
 parser_run.add_argument("reads", type = str, help = "Reads in fasta/fastq format")
 parser_run.add_argument("--length", help = "Minimum length of alignments [65]", default = "65", action = 'store')
-parser_run.add_argument("--evalue", help = "Maximum e-value of alignments [10e-10]", action = 'store', default = '10e-10')
+parser_run.add_argument("--identity", help = "Minimum required percent identity [90]", action = 'store', default = '90')
 parser_run.add_argument("-v", help = "Be verbose", action = 'store_true')
 parser_run.add_argument("--train", help = "Train score parameters", action = 'store_true')
-parser_run.add_argument("-P", help = "Allow parallelization [2]", action = 'store', default = 0)
+parser_run.add_argument("-P", help = "Allow parallelization [2]", action = 'store', default = 2)
 parser_run.set_defaults(func = run_mode, evalue = "10e-10", size = "65")
 parser_demo = subparser.add_parser("demo", help = "Run the program with the example file")
 parser_demo.set_defaults(func = demo_mode)
